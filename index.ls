@@ -67,20 +67,23 @@ fileList = []
 dirHead =
   path: pwd
   children: []
-
+console.log path.join pwd, '.gitignore'
 # ignore file
 ignore = require \ignore
-ig = ignore!addIgnoreFile ignore.select [ path.join pwd, '.gitignore' ]
+ig = ignore!addIgnoreFile path.join pwd, 'fileccignore'
 ig.addPattern [ 'filecc-out-*' ]
 
 find pwd, dirHead    # results in fileList, dirHead
 
+originPwd = pwd
 pwd = path.join pwd, overwrite!
 mkdirsIfNotOverwrite dirHead, pwd
 
 # translate file use OpenCC
 Promise.map fileList, (file) ->
-  fs.readFileAsync file, 'utf8'
+  ofilepath = path.join originPwd, file
+  nfilepath = path.join pwd, file
+  fs.readFileAsync ofilepath, 'utf8'
     .then (data) ->
       hash = md5 data
       translateData = opencc.convertSync data
@@ -94,7 +97,7 @@ Promise.map fileList, (file) ->
       Promise.resolve result
     .then (result) ->
       if result.required || !opts.overwrite
-        console.log 'writing file: ' + (path.join pwd, file) + if result.required then '(changed)' else ''
-        fs.writeFileAsync (path.join pwd, file), result.data
+        console.log 'writing file: ' + nfilepath + if result.required then '(changed)' else ''
+        fs.writeFileAsync nfilepath, result.data
 .then ->
   console.log \end
