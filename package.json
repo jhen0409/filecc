@@ -1,7 +1,7 @@
 {
   "name": "filecc",
   "preferGlobal": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "目錄底下檔案中文轉換，使用 OpenCC",
   "main": "index.js",
   "scripts": {

@@ -78,9 +78,8 @@ originPwd = pwd
 pwd = path.join pwd, overwrite!
 mkdirsIfNotOverwrite dirHead, pwd
 
-count = total = 0
-
 # translate file use OpenCC
+count = total = 0
 Promise.map fileList, (file) ->
   ofilepath = path.join originPwd, file
   nfilepath = path.join pwd, file
