@@ -68,7 +68,7 @@ fileList = []
 dirHead =
   path: pwd
   children: []
-console.log path.join pwd, '.gitignore'
+
 # ignore file
 ignore = require \ignore
 ig = ignore!addIgnoreFile path.join pwd, 'fileccignore'

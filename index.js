@@ -72,7 +72,6 @@
     path: pwd,
     children: []
   };
-  console.log(path.join(pwd, '.gitignore'));
   ignore = require('ignore');
   ig = ignore().addIgnoreFile(path.join(pwd, 'fileccignore'));
   ignoreParams.push('filecc-out-*');
