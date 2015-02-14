@@ -78,6 +78,8 @@ originPwd = pwd
 pwd = path.join pwd, overwrite!
 mkdirsIfNotOverwrite dirHead, pwd
 
+count = total = 0
+
 # translate file use OpenCC
 Promise.map fileList, (file) ->
   ofilepath = path.join originPwd, file
@@ -97,8 +99,10 @@ Promise.map fileList, (file) ->
         result.data = translateData
       Promise.resolve result
     .then (result) ->
+      total++
       if result.required || !opts.overwrite
+        count++ if result.required
         console.log 'writing file: ' + nfilepath + if result.required then '(changed)' else ''
         fs.writeFileAsync nfilepath, result.data
 .then ->
-  console.log \end
+  console.log 'end (changed: %d, total: %d)', count, total
