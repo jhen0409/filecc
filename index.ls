@@ -2,6 +2,7 @@ fs = require \fs
 path = require \path
 _ = require \underscore
 crypto = require \crypto
+ignoreParams = require \./ignore.json
 
 Promise = require \bluebird
 Promise.promisifyAll fs
@@ -71,7 +72,8 @@ console.log path.join pwd, '.gitignore'
 # ignore file
 ignore = require \ignore
 ig = ignore!addIgnoreFile path.join pwd, 'fileccignore'
-ig.addPattern [ 'filecc-out-*' ]
+ignoreParams.push 'filecc-out-*'
+ig.addPattern ignoreParams
 
 find pwd, dirHead    # results in fileList, dirHead
 
@@ -83,14 +85,19 @@ mkdirsIfNotOverwrite dirHead, pwd
 Promise.map fileList, (file) ->
   ofilepath = path.join originPwd, file
   nfilepath = path.join pwd, file
-  fs.readFileAsync ofilepath, 'utf8'
+  fs.readFileAsync ofilepath
     .then (data) ->
-      hash = md5 data
-      translateData = opencc.convertSync data
-      translateHash = md5 translateData
       result = 
         required: false
         data: data
+      # temp: binary 判斷
+      if (data.toString!) != (new Buffer data.toString!).toString!
+        return Promise.resolve result
+      data = data.toString 'utf8'
+      hash = md5 data
+      translateData = opencc.convertSync data
+      translateHash = md5 translateData
+      
       if hash != translateHash
         result.required = true
         result.data = translateData
