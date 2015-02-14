@@ -9,7 +9,7 @@ Promise.promisifyAll fs
 isText = require 'istextorbinary' .isTextSync
 
 # args
-opts = require(\optimist)
+opts = require \optimist
   .usage 'Usage: $0 --path=[dir] [--overwrite] [--config=[file]]'
   .demand 'path'
   .alias 'p', 'path'
