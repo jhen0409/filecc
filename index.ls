@@ -2,25 +2,26 @@ fs = require \fs
 path = require \path
 _ = require \underscore
 crypto = require \crypto
-ignoreParams = require \./ignore.json
 
 Promise = require \bluebird
 Promise.promisifyAll fs
-
-OpenCC = require \opencc
-opencc = new OpenCC \t2s.json
 
 isText = require 'istextorbinary' .isTextSync
 
 # args
 opts = require(\optimist)
-  .usage 'Usage: $0 --path=[dir] [--overwrite]'
+  .usage 'Usage: $0 --path=[dir] [--overwrite] [--config=[file]]'
   .demand 'path'
   .alias 'p', 'path'
   .alias 'o', 'overwrite'
+  .alias 'c', 'config'
   .describe 'p', 'Load a directory'
-  .describe 'o', 'Overwirte file\n(no set: copy to filecc-out directory)'
+  .describe 'o', 'Overwirte file\n\t(no set: copy to filecc-out directory)'
+  .describe 'c', 'OpenCC config file, default: s2t.json'
   .argv 
+
+OpenCC = require \opencc
+opencc = new OpenCC opts.config || \s2t.json
 
 filepath = ->
   opts.path || ''
