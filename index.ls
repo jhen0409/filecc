@@ -10,6 +10,8 @@ Promise.promisifyAll fs
 OpenCC = require \opencc
 opencc = new OpenCC \t2s.json
 
+isText = require 'istextorbinary' .isTextSync
+
 # args
 opts = require(\optimist)
   .usage 'Usage: $0 --path=[dir] [--overwrite]'
@@ -19,11 +21,6 @@ opts = require(\optimist)
   .describe 'p', 'Load a directory'
   .describe 'o', 'Overwirte file\n(no set: copy to filecc-out directory)'
   .argv 
-
-md5 = (data) ->
-  crypto.createHash 'md5' 
-    .update data
-    .digest \hex
 
 filepath = ->
   opts.path || ''
@@ -72,8 +69,7 @@ dirHead =
 # ignore file
 ignore = require \ignore
 ig = ignore!addIgnoreFile path.join pwd, 'fileccignore'
-ignoreParams.push 'filecc-out-*'
-ig.addPattern ignoreParams
+ig.addPattern [ 'filecc-out-*' ]
 
 find pwd, dirHead    # results in fileList, dirHead
 
@@ -90,15 +86,12 @@ Promise.map fileList, (file) ->
       result = 
         required: false
         data: data
-      # temp: binary 判斷
-      if (data.toString!) != (new Buffer data.toString!).toString!
+      # binary decide
+      if !isText file, data
         return Promise.resolve result
       data = data.toString 'utf8'
-      hash = md5 data
       translateData = opencc.convertSync data
-      translateHash = md5 translateData
-      
-      if hash != translateHash
+      if data != translateData
         result.required = true
         result.data = translateData
       Promise.resolve result

@@ -13,7 +13,8 @@
     "optimist": "~0.6.1",
     "ignore": "~2.2.15",
     "opencc": "~1.0.2",
-    "bluebird": "~2.9.9"
+    "bluebird": "~2.9.9",
+    "istextorbinary": "~1.0.2"
   },
   "repository": {
     "type": "git",
