@@ -1,13 +1,14 @@
 # filecc
+[![NPM version](https://badge.fury.io/js/filecc.png)](https://www.npmjs.com/package/filecc)
 
 目錄底下檔案中文轉換，使用 [OpenCC](https://www.npmjs.com/package/opencc)
 
-### Install
+### Installation
 ```
 npm install -g filecc
 ```
 
-### Using
+### Usage
 ```
 filecc --path=[dir] [--overwrite]
 ```
