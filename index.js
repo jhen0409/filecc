@@ -8,7 +8,7 @@
   Promise = require('bluebird');
   Promise.promisifyAll(fs);
   isText = require('istextorbinary').isTextSync;
-  opts = require('optimist').usage('Usage: $0 --path=[dir] [--overwrite] [--config=[file]]').demand('path').alias('p', 'path').alias('o', 'overwrite').alias('c', 'config').describe('p', 'Load a directory').describe('o', 'Overwirte file\n\t(no set: copy to filecc-out directory)').describe('c', 'OpenCC config file, default: s2t.json').argv;
+  opts = require('optimist').usage('Usage: $0 [options] [-p directory_path]').demand('p', 'path').alias('p', 'path').alias('o', 'overwrite').alias('c', 'config').describe('p', 'Load a directory').describe('o', 'Overwirte file\n\t(no set: copy to filecc-out directory)').describe('c', 'OpenCC config file, default: s2t.json').argv;
   OpenCC = require('opencc');
   opencc = new OpenCC(opts.config || 's2t.json');
   filepath = function(){

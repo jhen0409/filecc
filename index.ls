@@ -10,8 +10,8 @@ isText = require 'istextorbinary' .isTextSync
 
 # args
 opts = require \optimist
-  .usage 'Usage: $0 --path=[dir] [--overwrite] [--config=[file]]'
-  .demand 'path'
+  .usage 'Usage: $0 [options] [-p directory_path]'
+  .demand 'p', 'path'
   .alias 'p', 'path'
   .alias 'o', 'overwrite'
   .alias 'c', 'config'
